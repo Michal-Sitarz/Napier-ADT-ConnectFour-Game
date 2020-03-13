@@ -6,7 +6,8 @@ namespace Napier_ConnectFour_Csharp
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello GitHub!");
+            Console.WriteLine("\n ### Welcome in the \"Connect four\" game! ### \n");
+            UI.DisplayMainMenu("Press the key shown in the bracket [] to choose an option.");
         }
     }
 }
