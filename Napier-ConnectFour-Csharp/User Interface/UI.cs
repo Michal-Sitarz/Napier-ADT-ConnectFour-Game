@@ -24,12 +24,12 @@ namespace Napier_ConnectFour_Csharp
             {
                 case 'S':
                 case 's':
-                    StandardGame.Run();
+                    StandardGame.Create();
                     break;
 
                 case 'C':
                 case 'c':
-                    CustomGame.Run();
+                    CustomGame.Create();
                     break;
 
                 case 'R':
