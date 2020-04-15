@@ -6,7 +6,7 @@ namespace Napier_ConnectFour_Csharp
     {
         public static void Create()
         {
-            Console.WriteLine("You are about to run the Standard Game!\n Press any key to continue... Press 'Esc' to abort.");
+            Console.WriteLine("You are about to run the Standard Game!\nPress any key to continue... Press 'Esc' to abort.");
             ConsoleKeyInfo cki = Console.ReadKey(true);
             if (cki.Key == ConsoleKey.Escape)
             {
@@ -14,8 +14,8 @@ namespace Napier_ConnectFour_Csharp
             }
             else
             {
-                var game = new Game(7, 5);
-                game.Run();
+                var game = new Game(5, 7);
+                game.Start();
             }
         }
     }

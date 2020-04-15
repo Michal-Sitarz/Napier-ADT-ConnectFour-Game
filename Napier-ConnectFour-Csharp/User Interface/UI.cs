@@ -19,25 +19,21 @@ namespace Napier_ConnectFour_Csharp
                 Console.WriteLine("\n>> " + message + " <<\n");
             }
 
-            char key = Console.ReadKey(true).KeyChar;
+            char key = char.ToLower(Console.ReadKey(true).KeyChar);
             switch (key)
             {
-                case 'S':
                 case 's':
                     StandardGame.Create();
                     break;
 
-                case 'C':
                 case 'c':
                     CustomGame.Create();
                     break;
 
-                case 'R':
                 case 'r':
                     Replays.Run();
                     break;
 
-                case 'X':
                 case 'x':
                     Console.WriteLine("Good bye!!!\nPress any key to exit...");
                     Console.ReadKey(true);
