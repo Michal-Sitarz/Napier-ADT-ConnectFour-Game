@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Reflection.Metadata.Ecma335;
 
 namespace Napier_ConnectFour_Csharp
 {
     public class Game
     {
-        private bool?[,] board; // uniform 2d array, which looks like a grid
+        private bool?[,] board; // uniform 2D array, which looks like a grid
         private readonly int _boardRows;
         private readonly int _boardColumns;
         private const char _pieceLabelP1 = 'x';
@@ -13,7 +12,6 @@ namespace Napier_ConnectFour_Csharp
         private readonly int _maxMoves;
         private int movesCounter = 1;
         private bool gameEnded = false;
-
 
         public Game(int boardRows, int boardColumns)
         {
@@ -80,6 +78,7 @@ namespace Napier_ConnectFour_Csharp
                                     columnNumberOK = true;
                                     P1move = !P1move; // flip the boolean flag to swap players move
                                     movesCounter++;
+
                                     // check here for winning conditions
                                     //if yes -> Quit
                                     // if not -> Continue
@@ -164,7 +163,7 @@ namespace Napier_ConnectFour_Csharp
 
         public bool AddPiece(int column, bool P1move)
         {
-            column--; // -1 as chosen(displayed) number is 1 bigger than corresponding array index, e.g. first column (1) has index 0
+            column--; // -1 as chosen (displayed) column number is 1 bigger than corresponding array index, e.g. first column (1) has index [0]
             for (var row = _boardRows - 1; row >= 0; row--)
             {
                 if (board[column, row] == null)
