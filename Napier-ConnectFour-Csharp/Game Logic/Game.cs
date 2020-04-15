@@ -34,7 +34,6 @@ namespace Napier_ConnectFour_Csharp
         ContinueGame:
             while (!gameEnded)
             {
-                //DisplayBoard();
 
                 Console.Write($"\nMove #{movesCounter} >> Now moves: ");
                 if (P1move)
@@ -85,17 +84,17 @@ namespace Napier_ConnectFour_Csharp
                                     if (movesCounter > _maxMoves)
                                     {
                                         Console.WriteLine("There are no more moves available - it is a DRAW!");
-                                        goto QuitGame;
+                                        gameEnded = true;
                                     }
                                     else
                                     {
-                                        goto ContinueGame;
+                                        //goto ContinueGame;
                                     }
 
                                 }
                                 else
                                 {
-                                    Console.WriteLine("\nPlease choose one of the board columns with available slot for a new piece!");
+                                    Console.WriteLine("\nColumn full! Please choose column with available slot for a new piece!");
                                 }
                             }
                             else
@@ -121,10 +120,10 @@ namespace Napier_ConnectFour_Csharp
             Console.Clear();
             Console.WriteLine($"\nBoard {_boardRows}x{_boardColumns}   Maximum moves: {_maxMoves}\n");
 
-            // for each row display a piece symbol (inside a cell brackets) of each column
+            // for each row display a piece symbol (inside cell brackets) of each column
             for (int row = 0; row < _boardRows; row++)
             {
-                Console.Write(' ');
+                Console.Write("    "); // <- board's left margin
 
                 for (int column = 0; column < _boardColumns; column++)
                 {
@@ -149,7 +148,7 @@ namespace Napier_ConnectFour_Csharp
             }
 
             // display column's numbering
-            Console.Write(' ');
+            Console.Write("    "); // <- board's left margin
             for (int column = 0; column < _boardColumns; column++)
             {
                 Console.Write(' ');

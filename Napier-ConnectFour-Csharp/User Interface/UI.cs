@@ -7,12 +7,13 @@ namespace Napier_ConnectFour_Csharp
         public static void DisplayMainMenu(string message = "")
         {
             Console.Clear();
-            Console.WriteLine("\n MENU:\n ====+====+====");
-            Console.WriteLine(" Play [S]tandard game");
-            Console.WriteLine(" Play [C]ustom game");
-            Console.WriteLine(" [R]eplays");
-            Console.WriteLine(" E[x]it");
-            Console.WriteLine(" ====+====+====");
+            Console.WriteLine("\n MENU:");
+            Console.WriteLine(" +====+====+====+====+====+");
+            Console.WriteLine(" |  Play [S]tandard game  |");
+            Console.WriteLine(" |  Play [C]ustom game    |");
+            Console.WriteLine(" | [R]eplays              |");
+            Console.WriteLine(" |  E[x]it                |");
+            Console.WriteLine(" +====+====+====+====+====+");
 
             if (!string.IsNullOrEmpty(message))
             {
