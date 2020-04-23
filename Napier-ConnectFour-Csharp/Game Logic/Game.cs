@@ -89,7 +89,13 @@ namespace Napier_ConnectFour_Csharp
                                     // if not -> Continue
                                     if (movesCounter > _maxMoves)
                                     {
+                                        movesHistory.TrimExcess(); // this sets the Stack size/capacity to only used length of the underlying array
+
                                         Console.WriteLine("There are no more moves available - it is a DRAW!");
+
+                                        PrintBoth();
+
+                                        //Program.ReplaysList.Add(new GameRecord { Date = DateTime.Now.Date, MovesHistory = ConvertStackIntoQueue(movesHistory), Result = GameResult.draw });
                                         gameEnded = true;
                                     }
                                     else
@@ -117,7 +123,7 @@ namespace Napier_ConnectFour_Csharp
             }
         QuitGame:
             //save moves history
-            
+
             Console.WriteLine("\n>> GG! Good game!");
             UI.GoBackToMainMenu();
 
@@ -184,6 +190,52 @@ namespace Napier_ConnectFour_Csharp
                 }
             }
             return false;
+        }
+
+        // Warning: This method will destroy the stack, but will return the queue.
+        private Queue<Move> ConvertStackIntoQueue(Stack<Move> stack)
+        {
+            var queue = new Queue<Move>();
+            var tempArray = new Move[stack.Count];
+
+            for (var i = stack.Count - 1; i >= 0; i--) // <- change to while stack.Count and [stack.Count]
+            {
+                tempArray[i] = stack.Pop();
+            }
+
+            for (var j = 0; j < tempArray.Length; j++)
+            {
+                queue.Enqueue(tempArray[j]);
+            }
+
+            return queue;
+        }
+
+        private void PrintBoth()
+        {
+            // Experiment: list Queue vs Stack
+            //var stack = movesHistory;
+            var stackArray = new Move[movesHistory.Count];
+
+            movesHistory.CopyTo(stackArray, 0);
+
+            var stack = new Stack<Move>();
+            for (int k = 0; k < stackArray.Length; k++)
+            {
+                stack.Push(stackArray[k]);
+            }
+
+            var queue = ConvertStackIntoQueue(movesHistory);
+            var elems = queue.Count;
+
+            Console.WriteLine("\n Stack + Queue");
+            for (int i = 0; i < elems; i++)
+            {
+                var s = stack.Pop();
+                var q = queue.Dequeue();
+                Console.WriteLine($" [{s.BoardColumn},{s.BoardRow}] | [{q.BoardColumn},{q.BoardRow}]");
+            }
+            Console.WriteLine("===== + =====");
 
         }
 

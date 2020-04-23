@@ -32,7 +32,7 @@ namespace Napier_ConnectFour_Csharp
                     break;
 
                 case 'r':
-                    Replays.Run();
+                    ReplaysPlayer.Run();
                     break;
 
                 case 'x':
