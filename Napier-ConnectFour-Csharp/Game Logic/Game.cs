@@ -93,7 +93,7 @@ namespace Napier_ConnectFour_Csharp
 
                                         Console.WriteLine("There are no more moves available - it is a DRAW!");
 
-                                        PrintBoth();
+                                        PrintBothStackAndQueue();
 
                                         //Program.ReplaysList.Add(new GameRecord { Date = DateTime.Now.Date, MovesHistory = ConvertStackIntoQueue(movesHistory), Result = GameResult.draw });
                                         gameEnded = true;
@@ -198,9 +198,9 @@ namespace Napier_ConnectFour_Csharp
             var queue = new Queue<Move>();
             var tempArray = new Move[stack.Count];
 
-            for (var i = stack.Count - 1; i >= 0; i--) // <- change to while stack.Count and [stack.Count]
+            while (stack.Count > 0) // <- change to while stack.Count and [stack.Count]
             {
-                tempArray[i] = stack.Pop();
+                tempArray[stack.Count - 1] = stack.Pop();
             }
 
             for (var j = 0; j < tempArray.Length; j++)
@@ -211,7 +211,7 @@ namespace Napier_ConnectFour_Csharp
             return queue;
         }
 
-        private void PrintBoth()
+        private void PrintBothStackAndQueue()
         {
             // Experiment: list Queue vs Stack
             //var stack = movesHistory;
@@ -229,13 +229,14 @@ namespace Napier_ConnectFour_Csharp
             var elems = queue.Count;
 
             Console.WriteLine("\n Stack + Queue");
+            Console.WriteLine(" ===== + =====");
             for (int i = 0; i < elems; i++)
             {
                 var s = stack.Pop();
                 var q = queue.Dequeue();
                 Console.WriteLine($" [{s.BoardColumn},{s.BoardRow}] | [{q.BoardColumn},{q.BoardRow}]");
             }
-            Console.WriteLine("===== + =====");
+            Console.WriteLine(" ===== + =====");
 
         }
 
