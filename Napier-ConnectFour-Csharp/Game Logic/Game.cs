@@ -1,16 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Napier_ConnectFour_Csharp
 {
     public class Game
     {
-        private bool?[,] board; // uniform 2D array, which looks like a grid
+        private int[,] board; // uniform 2D array, which looks like a grid/matrix
         private readonly int _boardRows;
         private readonly int _boardColumns;
+        private readonly int _maxMoves;
+
         private const char _pieceLabelP1 = 'x';
         private const char _pieceLabelP2 = 'o';
-        private readonly int _maxMoves;
+
         private int movesCounter = 1;
+        private Stack<Move> movesHistory;
         private bool gameEnded = false;
 
         public Game(int boardRows, int boardColumns)
@@ -22,21 +26,22 @@ namespace Napier_ConnectFour_Csharp
 
         public void Start()
         {
-            board = new bool?[_boardColumns, _boardRows];
+            board = new int[_boardColumns, _boardRows];
+            movesHistory = new Stack<Move>();
             Run();
         }
 
         private void Run()
         {
-            bool P1move = true;
+            bool player1move = true;
             DisplayBoard();
 
         ContinueGame:
             while (!gameEnded)
             {
 
-                Console.Write($"\nMove #{movesCounter} >> Now moves: ");
-                if (P1move)
+                Console.Write($"\nMove #{movesCounter} >> Now is turn (moves): ");
+                if (player1move)
                 {
                     Console.WriteLine($"Player 1 ({_pieceLabelP1})");
                 }
@@ -70,12 +75,13 @@ namespace Napier_ConnectFour_Csharp
                         {
                             if (chosenColumnNumber > 0 && chosenColumnNumber <= _boardColumns)
                             {
-                                if (AddPiece(chosenColumnNumber, P1move))
+                                if (AddPiece(chosenColumnNumber, player1move))
                                 {
+                                    columnNumberOK = true;
+
                                     DisplayBoard();
 
-                                    columnNumberOK = true;
-                                    P1move = !P1move; // flip the boolean flag to swap players move
+                                    player1move = !player1move; // flip the boolean flag to swap players move
                                     movesCounter++;
 
                                     // check here for winning conditions
@@ -110,6 +116,8 @@ namespace Napier_ConnectFour_Csharp
                 }
             }
         QuitGame:
+            //save moves history
+            
             Console.WriteLine("\n>> GG! Good game!");
             UI.GoBackToMainMenu();
 
@@ -130,11 +138,11 @@ namespace Napier_ConnectFour_Csharp
                     Console.Write('[');
 
                     var piece = board[column, row];
-                    if (piece == true)
+                    if (piece == 1)
                     {
                         Console.Write(_pieceLabelP1);
                     }
-                    else if (piece == false)
+                    else if (piece == 2)
                     {
                         Console.Write(_pieceLabelP2);
                     }
@@ -160,19 +168,24 @@ namespace Napier_ConnectFour_Csharp
             Console.WriteLine();
         }
 
-        public bool AddPiece(int column, bool P1move)
+        private bool AddPiece(int column, bool player1move)
         {
             column--; // -1 as chosen (displayed) column number is 1 bigger than corresponding array index, e.g. first column (1) has index [0]
             for (var row = _boardRows - 1; row >= 0; row--)
             {
-                if (board[column, row] == null)
+                if (board[column, row] == 0)
                 {
-                    board[column, row] = P1move;
+                    board[column, row] = player1move ? 1 : 2; // if player1 moves assign 1, else its player2 move so assign 2
+
+                    // record valid move
+                    movesHistory.Push(new Move(board[column, row], column, row));
+
                     return true;
                 }
             }
             return false;
 
         }
+
     }
 }

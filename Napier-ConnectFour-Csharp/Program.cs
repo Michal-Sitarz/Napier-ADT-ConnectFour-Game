@@ -6,6 +6,9 @@ namespace Napier_ConnectFour_Csharp
     {
         static void Main(string[] args)
         {
+            // try loading game history from a local file
+
+
             Console.WriteLine("\n ### Welcome in the \"Connect four\" game! ### \n");
             UI.DisplayMainMenu("Press the key shown in the bracket [] to choose an option.");
         }
