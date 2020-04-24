@@ -8,12 +8,17 @@ namespace Napier_ConnectFour_Csharp
         {
             Console.Clear();
             Console.WriteLine("\n MENU:");
-            Console.WriteLine(" +====+====+====+====+====+");
-            Console.WriteLine(" |  Play [S]tandard game  |");
-            Console.WriteLine(" |  Play [C]ustom game    |");
-            Console.WriteLine(" | [R]eplays              |");
-            Console.WriteLine(" |  E[x]it                |");
-            Console.WriteLine(" +====+====+====+====+====+");
+            Console.WriteLine(" +====+====+=====+====+====+");
+            Console.WriteLine(" |>>   2 players         <<|");
+            Console.WriteLine(" |  Play [S]tandard game   |");
+            Console.WriteLine(" |  Play [C]ustom game     |");
+            Console.WriteLine(" |                         |");
+            Console.WriteLine(" |>>   1 player vs AI    <<|");
+            Console.WriteLine(" |  Play VS [A]i bot game  |");
+            Console.WriteLine(" |                         |");
+            Console.WriteLine(" | [R]eplays               |");
+            Console.WriteLine(" |  E[x]it                 |");
+            Console.WriteLine(" +====+====+=====+====+====+");
 
             if (!string.IsNullOrEmpty(message))
             {
@@ -24,11 +29,16 @@ namespace Napier_ConnectFour_Csharp
             switch (key)
             {
                 case 's':
-                    StandardGame.Create();
+                    var standardGame = new Game(5, 7);
+                    standardGame.Start();
+                    break;
+                case 'a':
+                    VersusAiGame.Create();
                     break;
 
                 case 'c':
-                    CustomGame.Create();
+                    var customGame = new Game(3, 3);
+                    customGame.Start();
                     break;
 
                 case 'r':

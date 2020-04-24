@@ -14,8 +14,7 @@ namespace Napier_ConnectFour_Csharp
             }
             else
             {
-                var game = new Game(5, 7);
-                game.Start();
+                
             }
         }
     }

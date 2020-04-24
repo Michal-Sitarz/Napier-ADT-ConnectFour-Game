@@ -5,15 +5,12 @@ namespace Napier_ConnectFour_Csharp
 {
     class Program
     {
-        public static List<GameRecord> ReplaysList = new List<GameRecord>(); 
-        /* Disclaimer: I know the line above is bad and dodgy, but if for any reason the File Handler won't be able to store Game's history of moves in a local file,
-           at least it will be stored in this global list, so at a single runtime of the app, you'd be able to test the "Replays" functionality to replay the moves of a previously played game(s). */
+        public static List<GameRecord> ReplaysList = new List<GameRecord>(); // save Game replays at runtime
+        /* I know that above line is bad and dodgy, but I wanted to make sure you can see some saved games on runtime, in case File Handler will fail */
 
         private static void Main(string[] args)
         {
-            // try loading game history from a local file
-
-            //var ReplaysList = new List<GameRecord>();
+            // put UI menu here? nah, maybe not
 
             Console.WriteLine("\n ### Welcome in the \"Connect four\" game! ### \n");
             UI.DisplayMainMenu("Press the key shown in the bracket [] to choose an option.");
