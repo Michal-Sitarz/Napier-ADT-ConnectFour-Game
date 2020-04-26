@@ -9,17 +9,17 @@ namespace Napier_ConnectFour_Csharp
         public int[,] Cells { get; private set; } // uniform 2D array, which looks like a grid/matrix; that's "the" content of the board
         public readonly int Columns;
         public readonly int Rows;
-        private readonly int SamePiecesToWin;
+        private readonly int ConnectedPiecesToWin;
 
         public readonly char Player1piece = 'x';
         public readonly char Player2piece = 'o';
 
-        public Board(int columns, int rows, int samePiecesToWin)
+        public Board(int columns, int rows, int connectedPiecesToWin)
         {
             Columns = columns;
             Rows = rows;
             Cells = new int[columns, rows];
-            SamePiecesToWin = samePiecesToWin;
+            ConnectedPiecesToWin = connectedPiecesToWin;
         }
 
         public void AddMove(Move move)
@@ -52,15 +52,15 @@ namespace Napier_ConnectFour_Csharp
 
 
             // CHECK VERTICAL (COLUMNS)
-            int samePieceCounter = 0;
+            int connectedPiecesCounter = 0;
             int column = move.BoardColumn;
             int row = move.BoardRow;
 
             // check same column > move through rows > direction: UP (row--)
             while (row >= 0 && Cells[column, row] == move.Player)
             {
-                samePieceCounter++;
-                if (samePieceCounter == SamePiecesToWin) { return true; }
+                connectedPiecesCounter++;
+                if (connectedPiecesCounter == ConnectedPiecesToWin) { return true; }
                 row--;
             }
 
@@ -69,22 +69,22 @@ namespace Napier_ConnectFour_Csharp
             // check same column > move through rows > direction: DOWN (row++)
             while (row < Rows && Cells[column, row] == move.Player)
             {
-                samePieceCounter++;
-                if (samePieceCounter == SamePiecesToWin) { return true; }
+                connectedPiecesCounter++;
+                if (connectedPiecesCounter == ConnectedPiecesToWin) { return true; }
                 row++;
             }
 
 
             // CHECK HORIZONTAL (ROWS)
-            samePieceCounter = 0; // reset counter & cell position
+            connectedPiecesCounter = 0; // reset counter & cell position
             column = move.BoardColumn;
             row = move.BoardRow;
 
             // check same row > move through columns > direction: LEFT (column--)
             while (column >= 0 && Cells[column, row] == move.Player)
             {
-                samePieceCounter++;
-                if (samePieceCounter == SamePiecesToWin) { return true; }
+                connectedPiecesCounter++;
+                if (connectedPiecesCounter == ConnectedPiecesToWin) { return true; }
                 column--;
             }
 
@@ -93,22 +93,22 @@ namespace Napier_ConnectFour_Csharp
             // check same row > move through columns > direction: RIGHT (column++)
             while (column < Columns && Cells[column, row] == move.Player)
             {
-                samePieceCounter++;
-                if (samePieceCounter == SamePiecesToWin) { return true; }
+                connectedPiecesCounter++;
+                if (connectedPiecesCounter == ConnectedPiecesToWin) { return true; }
                 column++;
             }
 
 
             // CHECK DIAGONAL
-            samePieceCounter = 0; // reset counter & cell position
+            connectedPiecesCounter = 0; // reset counter & cell position
             column = move.BoardColumn;
             row = move.BoardRow;
 
             // check diagonal > direction: UP (row--) LEFT (column--)
             while (row >= 0 && column >= 0 && Cells[column, row] == move.Player)
             {
-                samePieceCounter++;
-                if (samePieceCounter == SamePiecesToWin) { return true; }
+                connectedPiecesCounter++;
+                if (connectedPiecesCounter == ConnectedPiecesToWin) { return true; }
                 row--;
                 column--;
             }
@@ -119,23 +119,23 @@ namespace Napier_ConnectFour_Csharp
             // check diagonal > opposite direction: DOWN (row++) RIGHT (column++)
             while (row < Rows && column < Columns && Cells[column, row] == move.Player)
             {
-                samePieceCounter++;
-                if (samePieceCounter == SamePiecesToWin) { return true; }
+                connectedPiecesCounter++;
+                if (connectedPiecesCounter == ConnectedPiecesToWin) { return true; }
                 row++;
                 column++;
             }
 
 
             // CHECK ANTIDIAGONAL
-            samePieceCounter = 0; // reset counter & cell position
+            connectedPiecesCounter = 0; // reset counter & cell position
             column = move.BoardColumn;
             row = move.BoardRow;
 
             // check antidiagonal > direction: UP (row--) RIGHT (column++)
             while (row >= 0 && column < Columns && Cells[column, row] == move.Player)
             {
-                samePieceCounter++;
-                if (samePieceCounter == SamePiecesToWin) { return true; }
+                connectedPiecesCounter++;
+                if (connectedPiecesCounter == ConnectedPiecesToWin) { return true; }
                 row--;
                 column++;
             }
@@ -146,8 +146,8 @@ namespace Napier_ConnectFour_Csharp
             // check antidiagonal > opposite direction: DOWN (row++) LEFT (column--)
             while (row < Rows && column >= 0 && Cells[column, row] == move.Player)
             {
-                samePieceCounter++;
-                if (samePieceCounter == SamePiecesToWin) { return true; }
+                connectedPiecesCounter++;
+                if (connectedPiecesCounter == ConnectedPiecesToWin) { return true; }
                 row++;
                 column--;
             }

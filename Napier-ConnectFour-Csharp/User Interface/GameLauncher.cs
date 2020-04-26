@@ -6,6 +6,7 @@ namespace Napier_ConnectFour_Csharp
     {
         public static void Standard()
         {
+            Console.Clear();
             Console.WriteLine("You are about to run the Standard Game!\nTo undo moves, press 'Backspace' or 'Ctrl+Z'\nAt any time, press 'Esc' to quit the game.");
             Console.WriteLine("Press any key to start... Press 'Esc' now to go back to the Main Menu.");
             ConsoleKeyInfo cki = Console.ReadKey(true);
@@ -22,6 +23,7 @@ namespace Napier_ConnectFour_Csharp
 
         public static void Custom()
         {
+            Console.Clear();
             Console.WriteLine("You are about to run the Custom Game!\nTo undo moves, press 'Backspace' or 'Ctrl+Z'\nAt any time, press 'Esc' to quit the game.");
             Console.WriteLine("Press any key to start... Press 'Esc' now to go back to the Main Menu.");
             ConsoleKeyInfo cki = Console.ReadKey(true);

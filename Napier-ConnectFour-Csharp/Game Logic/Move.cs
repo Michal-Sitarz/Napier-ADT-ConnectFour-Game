@@ -12,6 +12,5 @@
             BoardRow = boardRow;
             Player = player;
         }
-
     }
 }

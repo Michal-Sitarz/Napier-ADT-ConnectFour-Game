@@ -1,5 +1,4 @@
-﻿
-namespace Napier_ConnectFour_Csharp
+﻿namespace Napier_ConnectFour_Csharp
 {
     public enum GameResult
     {

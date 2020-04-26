@@ -9,12 +9,12 @@ namespace Napier_ConnectFour_Csharp
             Console.Clear();
             Console.WriteLine("\n MENU:");
             Console.WriteLine(" +====+====+=====+====+====+");
-            Console.WriteLine(" |>>   2 players         <<|");
-            Console.WriteLine(" |  Play [S]tandard game   |");
-            Console.WriteLine(" |  Play [C]ustom game     |");
+            Console.WriteLine(" | 2 players:              |");
+            Console.WriteLine(" |  > Play [S]tandard game |");
+            Console.WriteLine(" |  > Play [C]ustom game   |");
             Console.WriteLine(" |                         |");
-            Console.WriteLine(" |>>   1 player vs AI    <<|");
-            Console.WriteLine(" |  Play VS [A]i bot game  |");
+            Console.WriteLine(" | 1 player vs AI          |");
+            Console.WriteLine(" |  > Play [A]i game       |");
             Console.WriteLine(" |                         |");
             Console.WriteLine(" | [R]eplays               |");
             Console.WriteLine(" |  E[x]it                 |");
@@ -46,6 +46,7 @@ namespace Napier_ConnectFour_Csharp
 
                 case 'x':
                     Console.WriteLine("Good bye!!!\nPress any key to exit...");
+                    ReplaysFileHandler.Save();
                     Console.ReadKey(true);
                     break;
 

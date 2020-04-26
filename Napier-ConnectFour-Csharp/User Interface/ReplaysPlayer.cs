@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Napier_ConnectFour_Csharp
 {
-    public class ReplaysPlayer
+    public static class ReplaysPlayer
     {
         public static void Run()
         {
-            Console.WriteLine("Replays!");
+            Console.Clear();
+            Console.WriteLine("\n Replays!\n+=======+");
 
             DisplayAllReplays();
             Console.ReadKey(); // sort out UI/UX to use this actually: menu first, choosing record ID, then display/replay the game (display updating board)
@@ -23,8 +25,15 @@ namespace Napier_ConnectFour_Csharp
             for (int i = 0; i < Program.ReplaysList.Count; i++)
             {
                 GameRecord gr = Program.ReplaysList[i];
-                Console.WriteLine($" {(i+1),3} | {gr.Result,9}  | {gr.Date.ToShortDateString()}");
+                Console.WriteLine($" {(i + 1),3} | {gr.Result,9}  | {gr.Date.ToShortDateString()}");
             }
+
+        }
+
+
+
+        private static void PlayGame(GameRecord game)
+        {
 
         }
 
@@ -34,10 +43,10 @@ namespace Napier_ConnectFour_Csharp
 
             Console.WriteLine($"Game played on: {game.Date.ToLongDateString()} ");
             Console.WriteLine($"Game's winner: {game.Result}");
-            
+
             Console.WriteLine("\n Moves:");
             Console.WriteLine(" =====");
-           
+
             for (int i = 0; i < queue.Count; i++)
             {
                 Move m = queue.Dequeue();
