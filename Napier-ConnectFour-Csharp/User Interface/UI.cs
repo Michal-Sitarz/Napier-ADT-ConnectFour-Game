@@ -29,16 +29,15 @@ namespace Napier_ConnectFour_Csharp
             switch (key)
             {
                 case 's':
-                    var standardGame = new Game(5, 7);
-                    standardGame.Start();
-                    break;
-                case 'a':
-                    VersusAiGame.Create();
+                    GameLauncher.Standard();
                     break;
 
                 case 'c':
-                    var customGame = new Game(3, 3);
-                    customGame.Start();
+                    GameLauncher.Custom();
+                    break;
+
+                case 'a':
+                    GameLauncher.VersusAI();
                     break;
 
                 case 'r':
@@ -59,9 +58,18 @@ namespace Napier_ConnectFour_Csharp
 
         public static void GoBackToMainMenu()
         {
-            Console.WriteLine("Press any key to go back to the Main Menu...");
-            Console.ReadKey(true);
-            DisplayMainMenu();
+            Console.Write("Press any key to go back to the Main Menu...");
+            var key = Console.ReadKey(true).KeyChar;
+            // prevent from using numerical keys, just in case, as these are used to play the actual game
+            if (!char.IsNumber(key))
+            {
+                DisplayMainMenu();
+            }
+            else
+            {
+                Console.Write(" (except numerical keys!) \n");
+                GoBackToMainMenu();
+            }
         }
     }
 }

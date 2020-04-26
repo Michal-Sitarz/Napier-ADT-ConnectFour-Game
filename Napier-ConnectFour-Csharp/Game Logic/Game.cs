@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Napier_ConnectFour_Csharp
 {
@@ -14,9 +15,9 @@ namespace Napier_ConnectFour_Csharp
         private bool gameEnded = false;
         bool player1turn = true;
 
-        public Game(int boardRows, int boardColumns)
+        public Game(int boardRows, int boardColumns, int samePiecesToWin)
         {
-            board = new Board(boardColumns, boardRows);
+            board = new Board(boardColumns, boardRows, samePiecesToWin);
             MaxMoves = boardColumns * boardRows;
         }
 
@@ -79,13 +80,13 @@ namespace Napier_ConnectFour_Csharp
                                     columnNumberOK = true;
 
                                     // check here for winning conditions
-                                    if (board.isWinningMove(movesHistory.Peek()))
+                                    if(board.hasWinningMove(movesHistory.Peek()))
                                     {
                                         board.DisplayBoard(); // <<<<< swap for "flashy" display board after implementation <<<<<<<<<<
 
                                         int winner = player1turn ? 1 : 2;
                                         Console.WriteLine("\n *** Well done Player {0} ({1})!!! You won!!! Well done! ***\n", winner, player1turn ? board.Player1piece : board.Player2piece);
-
+                                        Thread.Sleep(2000); // suspend any execution for 2 sec to let winning player ENJOY the moment (and prevent hassy quit of the game by pressing any keys) 
                                         record.Result = (GameResult)winner; // casts result for one of the players of last winning move
                                         gameEnded = true;
                                     }
