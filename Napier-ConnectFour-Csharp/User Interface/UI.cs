@@ -11,7 +11,8 @@ namespace Napier_ConnectFour_Csharp
             Console.WriteLine(" +====+====+=====+====+====+");
             Console.WriteLine(" | 2 players:              |");
             Console.WriteLine(" |  > Play [S]tandard game |");
-            Console.WriteLine(" |  > Play [C]ustom game   |");
+            Console.WriteLine(" |  > Play [C]lassic game  |");
+            Console.WriteLine(" |  > Play [B]espoke game  |");
             Console.WriteLine(" |                         |");
             Console.WriteLine(" | 1 player vs AI          |");
             Console.WriteLine(" |  > Play [A]i game       |");
@@ -33,7 +34,11 @@ namespace Napier_ConnectFour_Csharp
                     break;
 
                 case 'c':
-                    GameLauncher.Custom();
+                    GameLauncher.Classic();
+                    break;
+
+                case 'b':
+                    GameLauncher.Bespoke();
                     break;
 
                 case 'a':

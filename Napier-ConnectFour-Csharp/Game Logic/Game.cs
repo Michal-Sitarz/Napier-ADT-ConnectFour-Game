@@ -9,14 +9,16 @@ namespace Napier_ConnectFour_Csharp
         private Board board;
         private GameRecord record;
 
+        private readonly bool undoMovesAllowed;
         private readonly int MaxMoves;
         private int movesCounter = 1;
         private Stack<Move> movesHistory;
         private bool gameEnded = false;
         bool player1turn = true;
 
-        public Game(int boardRows, int boardColumns, int samePiecesToWin)
+        public Game(int boardRows, int boardColumns, int samePiecesToWin, bool allowUndo = true)
         {
+            undoMovesAllowed = allowUndo;
             board = new Board(boardColumns, boardRows, samePiecesToWin);
             MaxMoves = boardColumns * boardRows;
         }
@@ -55,7 +57,7 @@ namespace Napier_ConnectFour_Csharp
                         goto QuitGame;
                     }
                     // give players chance to undo moves
-                    else if (key.Key == ConsoleKey.Backspace)
+                    else if (undoMovesAllowed && key.Key == ConsoleKey.Backspace)
                     {
                         if (movesCounter > 1)
                         {
@@ -85,7 +87,7 @@ namespace Napier_ConnectFour_Csharp
                                     columnNumberOK = true;
 
                                     // check here for winning conditions
-                                    if(board.hasWinningMove(movesHistory.Peek()))
+                                    if (board.hasWinningMove(movesHistory.Peek()))
                                     {
                                         board.DisplayBoard(); // <<<<<<< swap for "flashy" display board after implementation <<<<<<<
 
