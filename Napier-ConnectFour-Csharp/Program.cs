@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 
 namespace Napier_ConnectFour_Csharp
 {
     class Program
     {
         public static List<GameRecord> ReplaysList = new List<GameRecord>();
+        //public static LatestGames ReplaysList = new LatestGames(); // stores only latest 9 replays
 
         private static void Main(string[] args)
         {

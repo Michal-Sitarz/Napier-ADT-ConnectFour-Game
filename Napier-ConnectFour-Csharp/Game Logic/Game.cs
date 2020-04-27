@@ -24,8 +24,12 @@ namespace Napier_ConnectFour_Csharp
         public void Start()
         {
             movesHistory = new Stack<Move>();
+
             record = new GameRecord();
             record.Date = DateTime.Now.Date;
+            record.BoardColumns = board.Columns;
+            record.BoardRows = board.Rows;
+
             Run();
         }
 
@@ -49,7 +53,7 @@ namespace Napier_ConnectFour_Csharp
                         goto QuitGame;
                     }
                     // give players chance to undo moves
-                    else if (key.Key == ConsoleKey.Backspace || (key.Modifiers.HasFlag(ConsoleModifiers.Control) && char.ToLower(key.KeyChar) == 'z'))
+                    else if (key.Key == ConsoleKey.Backspace)
                     {
                         if (movesCounter > 1)
                         {
@@ -68,8 +72,7 @@ namespace Napier_ConnectFour_Csharp
                     }
                     else
                     {
-                        int chosenColumnNumber;
-                        if (int.TryParse(key.KeyChar.ToString(), out chosenColumnNumber)) // assigns number on success
+                        if (int.TryParse(key.KeyChar.ToString(), out int chosenColumnNumber)) // assigns number on success
                         {
                             if (chosenColumnNumber > 0 && chosenColumnNumber <= board.Columns)
                             {
@@ -116,10 +119,17 @@ namespace Napier_ConnectFour_Csharp
         QuitGame:
             // add moves history with result and save
             record.MovesHistory = ConvertStackIntoQueue(movesHistory);
+            // remove oldest record and add the latest, if there are 9 records
+            //if(Program.ReplaysList.Count == 9)
+            //{
+            //    Program.ReplaysList.Dequeue();
+            //}
+            //Program.ReplaysList.Enqueue(record);
             Program.ReplaysList.Add(record);
 
-            Console.WriteLine("\n>> GG! Good game!");
-            UI.GoBackToMainMenu();
+            Console.WriteLine("\n>> GG! Good game!\n Press any key to continue to Main Menu...");
+            Console.ReadKey();
+            UI.DisplayMainMenu();
 
         }
 

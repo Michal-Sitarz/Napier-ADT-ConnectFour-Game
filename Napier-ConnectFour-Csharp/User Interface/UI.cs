@@ -16,8 +16,8 @@ namespace Napier_ConnectFour_Csharp
             Console.WriteLine(" | 1 player vs AI          |");
             Console.WriteLine(" |  > Play [A]i game       |");
             Console.WriteLine(" |                         |");
-            Console.WriteLine(" | [R]eplays               |");
-            Console.WriteLine(" |  E[x]it                 |");
+            Console.WriteLine(" |  [R]eplays              |");
+            Console.WriteLine(" |  [Q]uit                 |");
             Console.WriteLine(" +====+====+=====+====+====+");
 
             if (!string.IsNullOrEmpty(message))
@@ -44,11 +44,12 @@ namespace Napier_ConnectFour_Csharp
                     ReplaysPlayer.Run();
                     break;
 
-                case 'x':
+                case 'q':
                     Console.WriteLine("Good bye!!!\nPress any key to exit...");
                     ReplaysFileHandler.Save();
                     Console.ReadKey(true);
-                    break;
+                    Environment.Exit(0);
+                    return;
 
                 default:
                     DisplayMainMenu("Please press the key corresponding to the menu!");
@@ -57,20 +58,5 @@ namespace Napier_ConnectFour_Csharp
 
         }
 
-        public static void GoBackToMainMenu()
-        {
-            Console.Write("Press any key to go back to the Main Menu...");
-            var key = Console.ReadKey(true).KeyChar;
-            // prevent from using numerical keys, just in case, as these are used to play the actual game
-            if (!char.IsNumber(key))
-            {
-                DisplayMainMenu();
-            }
-            else
-            {
-                Console.Write(" (except numerical keys!) \n");
-                GoBackToMainMenu();
-            }
-        }
     }
 }
