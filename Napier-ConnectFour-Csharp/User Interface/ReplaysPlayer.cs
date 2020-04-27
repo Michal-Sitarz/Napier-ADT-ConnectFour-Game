@@ -16,7 +16,7 @@ namespace Napier_ConnectFour_Csharp
             {
                 Console.Clear();
                 Console.WriteLine("\n Replays!\n+=======+");
-                Console.WriteLine("\nEnter game's ID number to replay it. Press 'x' and confirm with 'Enter' to go back to Main Menu.");
+                Console.WriteLine("\nEnter game's ID number to replay it. Press 'Esc' to go back to Main Menu.");
 
                 DisplayReplaysList();
                 var key = Console.ReadKey();

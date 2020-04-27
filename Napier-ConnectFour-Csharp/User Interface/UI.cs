@@ -51,7 +51,6 @@ namespace Napier_ConnectFour_Csharp
 
                 case 'q':
                     Console.WriteLine("Good bye!!!\nPress any key to exit...");
-                    ReplaysFileHandler.Save();
                     Console.ReadKey(true);
                     Environment.Exit(0);
                     return;
