@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Napier_ConnectFour_Csharp
 {
@@ -48,8 +46,6 @@ namespace Napier_ConnectFour_Csharp
 
         public bool hasWinningMove(Move move)
         {
-            //var winningPieces = new Stack<Move>();
-
 
             // CHECK VERTICAL (COLUMNS)
             int connectedPiecesCounter = 0;

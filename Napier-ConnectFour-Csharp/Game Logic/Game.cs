@@ -52,7 +52,7 @@ namespace Napier_ConnectFour_Csharp
                 {
                     if (versusAI && !player1turn)
                     {
-                        TryAddToColumn(AiCreateNumber());
+                        columnNumberOK = TryAddToColumn(AiCreateNumber()) ? true : false;
                     }
                     else
                     {
@@ -125,7 +125,7 @@ namespace Napier_ConnectFour_Csharp
                 // check here for winning conditions
                 if (board.hasWinningMove(movesHistory.Peek()))
                 {
-                    board.DisplayBoard(); // <<<<<<< swap for "flashy" display board after implementation <<<<<<<
+                    board.DisplayBoard();
 
                     int winner = player1turn ? 1 : 2;
                     Console.WriteLine("\n *** Well done Player {0} ({1})!!! You won!!! Well done! ***\n", winner, player1turn ? board.Player1piece : board.Player2piece);
