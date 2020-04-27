@@ -9,16 +9,18 @@ namespace Napier_ConnectFour_Csharp
         private Board board;
         private GameRecord record;
 
+        private readonly bool versusAI;
         private readonly bool undoMovesAllowed;
         private readonly int MaxMoves;
-        private int movesCounter = 1;
-        private Stack<Move> movesHistory;
-        private bool gameEnded = false;
-        bool versusAI = false;
-        bool player1turn = true;
 
-        public Game(bool allowUndo = true, int boardRows = 5, int boardColumns = 7, int samePiecesToWin = 4)
+        private Stack<Move> movesHistory;
+        private int movesCounter = 1;
+        private bool gameEnded = false;
+        private bool player1turn = true;
+
+        public Game(bool allowUndo = true, int boardRows = 5, int boardColumns = 7, int samePiecesToWin = 4, bool vsAi = false)
         {
+            versusAI = vsAi;
             undoMovesAllowed = allowUndo;
             board = new Board(boardColumns, boardRows, samePiecesToWin);
             MaxMoves = boardColumns * boardRows;
@@ -48,92 +50,56 @@ namespace Napier_ConnectFour_Csharp
                 bool columnNumberOK = false;
                 while (!columnNumberOK)
                 {
-                    ConsoleKeyInfo key;
                     if (versusAI && !player1turn)
                     {
-                        //make random move and assign to key, else continue with key
-                        // or if not possible -> ommit all key checks
-
+                        TryAddToColumn(AiCreateNumber());
                     }
                     else
                     {
-                        //Console.Write("\nChoose column (using number keys): ");
-                        //key = Console.ReadKey();
-                    }
-                    Console.Write("\nChoose column (using number keys): ");
-                    key = Console.ReadKey();
+                        Console.Write("\nChoose column (using number keys): ");
+                        var key = Console.ReadKey();
 
-                    // give players chance to quit the game
-                    if (key.Key == ConsoleKey.Escape)
-                    {
-                        record.Result = GameResult.game_quit;
-                        gameEnded = true;
-                        goto QuitGame;
-                    }
-                    // give players chance to undo moves
-                    else if (undoMovesAllowed && key.Key == ConsoleKey.Backspace)
-                    {
-                        if (movesCounter > 1)
+                        // give players chance to quit the game
+                        if (key.Key == ConsoleKey.Escape)
                         {
-                            var lastMove = movesHistory.Pop();
-                            board.UndoMove(lastMove);
-                            movesCounter--;
-                            player1turn = !player1turn; // revert the next player's turn
-
-                            board.DisplayBoard();
-                            DisplayPlayerTurn();
+                            record.Result = GameResult.game_quit;
+                            gameEnded = true;
+                            goto QuitGame;
                         }
-                        else
+                        // give players chance to undo moves
+                        else if (undoMovesAllowed && key.Key == ConsoleKey.Backspace)
                         {
-                            Console.WriteLine("No moves to undo... The board is empty!");
-                        }
-                    }
-                    else
-                    {
-                        if (int.TryParse(key.KeyChar.ToString(), out int chosenColumnNumber)) // assigns number on success
-                        {
-                            if (chosenColumnNumber > 0 && chosenColumnNumber <= board.Columns)
+                            if (movesCounter > 1)
                             {
-                                chosenColumnNumber--; // column's index -1, as chosen column number (displayed for user) is 1 bigger than corresponding array index, e.g. first column (1) has index [0]
-                                if (AddMoveEligibleForColumn(chosenColumnNumber))
-                                {
-                                    // if Ai enabled
+                                var lastMove = movesHistory.Pop();
+                                board.UndoMove(lastMove);
+                                movesCounter--;
+                                player1turn = !player1turn; // revert the next player's turn
 
-                                    // move added -> continue with the game
-                                    columnNumberOK = true;
-
-                                    // check here for winning conditions
-                                    if (board.hasWinningMove(movesHistory.Peek()))
-                                    {
-                                        board.DisplayBoard(); // <<<<<<< swap for "flashy" display board after implementation <<<<<<<
-
-                                        int winner = player1turn ? 1 : 2;
-                                        Console.WriteLine("\n *** Well done Player {0} ({1})!!! You won!!! Well done! ***\n", winner, player1turn ? board.Player1piece : board.Player2piece);
-                                        Thread.Sleep(2000); // suspend any execution for 2 sec to let winning player ENJOY the moment (and prevent hassy quit of the game by pressing any keys) 
-                                        record.Result = (GameResult)winner; // casts result for one of the players of last winning move
-                                        gameEnded = true;
-                                    }
-                                    else
-                                    {
-                                        board.DisplayBoard();
-                                        player1turn = !player1turn; // flip the boolean flag to swap players move
-                                        movesCounter++;
-
-                                        if (movesCounter > MaxMoves)
-                                        {
-                                            Console.WriteLine("There are no more moves available - it is a DRAW!");
-                                            record.Result = GameResult.draw;
-                                            gameEnded = true;
-                                        }
-                                    }
-                                }
-                                else { Console.WriteLine("\nColumn full! Please choose column with available slot for a new piece!"); }
+                                board.DisplayBoard();
+                                DisplayPlayerTurn();
                             }
-                            else { Console.WriteLine($"\nPlease choose one of the board columns (1-{board.Columns})"); }
+                            else
+                            {
+                                Console.WriteLine("No moves to undo... The board is empty!");
+                            }
                         }
                         else
-                        { Console.WriteLine("Please choose a numeric value!"); }
+                        {
+                            if (int.TryParse(key.KeyChar.ToString(), out int chosenColumnNumber)) // assigns number on success
+                            {
+                                if (chosenColumnNumber > 0 && chosenColumnNumber <= board.Columns)
+                                {
+                                    chosenColumnNumber--; // column's index -1, as chosen column number (displayed for user) is 1 bigger than corresponding array index, e.g. first column (1) has index [0]
+                                    columnNumberOK = TryAddToColumn(chosenColumnNumber) ? true : false;
+                                }
+                                else { Console.WriteLine($"\nPlease choose one of the board columns (1-{board.Columns})"); }
+                            }
+                            else
+                            { Console.WriteLine("Please choose a numeric value!"); }
+                        }
                     }
+
                 }
             }
         QuitGame:
@@ -148,13 +114,42 @@ namespace Napier_ConnectFour_Csharp
 
         }
 
-        private void DisplayPlayerTurn()
+        private bool TryAddToColumn(int columnNumber)
         {
-            Console.Write($"\nMove #{movesCounter} >> Now turn of: ");
-            if (player1turn)
-            { Console.WriteLine($"Player 1 ({board.Player1piece})"); }
-            else
-            { Console.WriteLine($"Player 2 ({board.Player2piece})"); }
+            var columnNumberOK = false;
+            if (AddMoveEligibleForColumn(columnNumber))
+            {
+                // move added -> continue with the game
+                columnNumberOK = true;
+
+                // check here for winning conditions
+                if (board.hasWinningMove(movesHistory.Peek()))
+                {
+                    board.DisplayBoard(); // <<<<<<< swap for "flashy" display board after implementation <<<<<<<
+
+                    int winner = player1turn ? 1 : 2;
+                    Console.WriteLine("\n *** Well done Player {0} ({1})!!! You won!!! Well done! ***\n", winner, player1turn ? board.Player1piece : board.Player2piece);
+                    Thread.Sleep(2000); // suspend any execution for 2 sec to let winning player ENJOY the moment (and prevent hassy quit of the game by pressing any keys) 
+                    record.Result = (GameResult)winner; // casts result for one of the players of last winning move
+                    gameEnded = true;
+                }
+                else
+                {
+                    board.DisplayBoard();
+                    player1turn = !player1turn; // flip the boolean flag to swap players move
+                    movesCounter++;
+
+                    if (movesCounter > MaxMoves)
+                    {
+                        Console.WriteLine("There are no more moves available - it is a DRAW!");
+                        record.Result = GameResult.draw;
+                        gameEnded = true;
+                    }
+                }
+            }
+            else { Console.WriteLine("\nColumn full! Please choose column with available slot for a new piece!"); }
+
+            return columnNumberOK;
         }
 
         private bool AddMoveEligibleForColumn(int column)
@@ -170,6 +165,14 @@ namespace Napier_ConnectFour_Csharp
             return false;
         }
 
+        private void DisplayPlayerTurn()
+        {
+            Console.Write($"\nMove #{movesCounter} >> Now turn of: ");
+            if (player1turn)
+            { Console.WriteLine($"Player 1 ({board.Player1piece})"); }
+            else
+            { Console.WriteLine($"Player 2 ({board.Player2piece})"); }
+        }
 
         // Warning: This method will destroy the stack, but will return the queue-like array.
         private Move[] ConvertStackIntoQueueLikeArray(Stack<Move> stack)
@@ -185,9 +188,11 @@ namespace Napier_ConnectFour_Csharp
             return queueLikeArray;
         }
 
-        private char AiRandomNumber()
+        private int AiCreateNumber()
         {
-            return (char)6;
+            var random = new Random();
+            int column = random.Next(0, board.Columns);
+            return column;
         }
     }
 }

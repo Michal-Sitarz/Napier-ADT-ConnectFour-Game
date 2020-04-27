@@ -14,7 +14,6 @@ namespace Napier_ConnectFour_Csharp
 
             var standardGame = new Game();
             standardGame.Start();
-
         }
 
         public static void Classic()
@@ -27,7 +26,6 @@ namespace Napier_ConnectFour_Csharp
 
             var standardGame = new Game(false);
             standardGame.Start();
-
         }
 
         public static void Bespoke()
@@ -96,12 +94,18 @@ namespace Napier_ConnectFour_Csharp
             }
             var game = new Game(allowUndo, rows, columns, piecesConnected);
             game.Start();
-
         }
 
         public static void VersusAI()
         {
+            Console.Clear();
+            Console.WriteLine("You are about to run the Standard Game vs AI (Computer)!\nThere is no undo moves here!'");
+            Console.WriteLine("\nAt any time, press 'Esc' to quit the game.");
+            Console.WriteLine("Press any key now to start...");
+            Console.ReadKey();
 
+            var standardGame = new Game(false, 5, 7, 4, true);
+            standardGame.Start();
         }
 
     }
