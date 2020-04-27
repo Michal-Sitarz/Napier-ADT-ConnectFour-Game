@@ -14,6 +14,7 @@ namespace Napier_ConnectFour_Csharp
         private int movesCounter = 1;
         private Stack<Move> movesHistory;
         private bool gameEnded = false;
+        bool versusAI = false;
         bool player1turn = true;
 
         public Game(bool allowUndo = true, int boardRows = 5, int boardColumns = 7, int samePiecesToWin = 4)
@@ -47,8 +48,21 @@ namespace Napier_ConnectFour_Csharp
                 bool columnNumberOK = false;
                 while (!columnNumberOK)
                 {
+                    ConsoleKeyInfo key;
+                    if (versusAI && !player1turn)
+                    {
+                        //make random move and assign to key, else continue with key
+                        // or if not possible -> ommit all key checks
+
+                    }
+                    else
+                    {
+                        //Console.Write("\nChoose column (using number keys): ");
+                        //key = Console.ReadKey();
+                    }
                     Console.Write("\nChoose column (using number keys): ");
-                    var key = Console.ReadKey();
+                    key = Console.ReadKey();
+
                     // give players chance to quit the game
                     if (key.Key == ConsoleKey.Escape)
                     {
@@ -83,6 +97,8 @@ namespace Napier_ConnectFour_Csharp
                                 chosenColumnNumber--; // column's index -1, as chosen column number (displayed for user) is 1 bigger than corresponding array index, e.g. first column (1) has index [0]
                                 if (AddMoveEligibleForColumn(chosenColumnNumber))
                                 {
+                                    // if Ai enabled
+
                                     // move added -> continue with the game
                                     columnNumberOK = true;
 
@@ -167,6 +183,11 @@ namespace Napier_ConnectFour_Csharp
                 queueLikeArray[stack.Count - 1] = stack.Pop();
             }
             return queueLikeArray;
+        }
+
+        private char AiRandomNumber()
+        {
+            return (char)6;
         }
     }
 }
