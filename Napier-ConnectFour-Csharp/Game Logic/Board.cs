@@ -9,7 +9,7 @@ namespace Napier_ConnectFour_Csharp
         public int[,] Cells { get; private set; } // uniform 2D array, which looks like a grid/matrix; that's "the" content of the board
         public readonly int Columns;
         public readonly int Rows;
-        private readonly int ConnectedPiecesToWin;
+        public readonly int ConnectedPiecesToWin;
 
         public readonly char Player1piece = 'x';
         public readonly char Player2piece = 'o';

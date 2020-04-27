@@ -27,8 +27,10 @@ namespace Napier_ConnectFour_Csharp
 
             record = new GameRecord();
             record.Date = DateTime.Now.Date;
+
             record.BoardColumns = board.Columns;
             record.BoardRows = board.Rows;
+            record.ConnectedPiecesToWin = board.ConnectedPiecesToWin;
 
             Run();
         }
@@ -118,13 +120,8 @@ namespace Napier_ConnectFour_Csharp
             }
         QuitGame:
             // add moves history with result and save
-            record.MovesHistory = ConvertStackIntoQueue(movesHistory);
-            // remove oldest record and add the latest, if there are 9 records
-            //if(Program.ReplaysList.Count == 9)
-            //{
-            //    Program.ReplaysList.Dequeue();
-            //}
-            //Program.ReplaysList.Enqueue(record);
+            record.MovesHistory = ConvertStackIntoQueueLikeArray(movesHistory);
+
             Program.ReplaysList.Add(record);
 
             Console.WriteLine("\n>> GG! Good game!\n Press any key to continue to Main Menu...");
@@ -156,55 +153,18 @@ namespace Napier_ConnectFour_Csharp
         }
 
 
-        // Warning: This method will destroy the stack, but will return the queue.
-        private Queue<Move> ConvertStackIntoQueue(Stack<Move> stack)
+        // Warning: This method will destroy the stack, but will return the queue-like array.
+        private Move[] ConvertStackIntoQueueLikeArray(Stack<Move> stack)
         {
             stack.TrimExcess(); // this sets the Stack size/capacity to only used length of the underlying array
 
-            var queue = new Queue<Move>();
-            var tempArray = new Move[stack.Count];
+            var queueLikeArray = new Move[stack.Count];
 
             while (stack.Count > 0)
             {
-                tempArray[stack.Count - 1] = stack.Pop();
+                queueLikeArray[stack.Count - 1] = stack.Pop();
             }
-
-            for (var j = 0; j < tempArray.Length; j++)
-            {
-                queue.Enqueue(tempArray[j]);
-            }
-
-            return queue;
+            return queueLikeArray;
         }
-
-        private void PrintBothStackAndQueue()
-        {
-            // Experiment: list Queue vs Stack
-            //var stack = movesHistory;
-            var stackArray = new Move[movesHistory.Count];
-
-            movesHistory.CopyTo(stackArray, 0);
-
-            var stack = new Stack<Move>();
-            for (int k = 0; k < stackArray.Length; k++)
-            {
-                stack.Push(stackArray[k]);
-            }
-
-            var queue = ConvertStackIntoQueue(movesHistory);
-            var elems = queue.Count;
-
-            Console.WriteLine("\n Stack + Queue");
-            Console.WriteLine(" ===== + =====");
-            for (int i = 0; i < elems; i++)
-            {
-                var s = stack.Pop();
-                var q = queue.Dequeue();
-                Console.WriteLine($" [{s.BoardColumn},{s.BoardRow}] | [{q.BoardColumn},{q.BoardRow}]");
-            }
-            Console.WriteLine(" ===== + =====");
-
-        }
-
     }
 }
