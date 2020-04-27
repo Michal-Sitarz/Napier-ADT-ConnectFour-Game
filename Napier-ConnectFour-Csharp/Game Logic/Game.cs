@@ -16,7 +16,7 @@ namespace Napier_ConnectFour_Csharp
         private bool gameEnded = false;
         bool player1turn = true;
 
-        public Game(int boardRows, int boardColumns, int samePiecesToWin, bool allowUndo = true)
+        public Game(bool allowUndo = true, int boardRows = 5, int boardColumns = 7, int samePiecesToWin = 4)
         {
             undoMovesAllowed = allowUndo;
             board = new Board(boardColumns, boardRows, samePiecesToWin);
